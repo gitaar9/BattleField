@@ -27,7 +27,7 @@ class BattlefieldWindow(arcade.Window):
         arcade.draw_lrwh_rectangle_textured(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, self.background_texture)
 
         # Draw the grid with perspective
-        draw_grid = True
+        draw_grid = False
         empty_tiles = self.game_state.walkable_tiles
         if draw_grid:
             for y in range(GRID_ROWS):
@@ -42,7 +42,7 @@ class BattlefieldWindow(arcade.Window):
                     arcade.draw_rectangle_outline(screen_x + cell_width / 2, screen_y + cell_height / 2,
                                                   cell_width, cell_height, color, 3)
 
-        for drawable in sorted(self.game_state.drawables, key=lambda t: (t.grid_y, -t.grid_x), reverse=True):
+        for drawable in sorted(self.game_state.drawables, key=lambda t: (t.screen_y, -t.screen_x), reverse=True):
             drawable.draw()  # Draw the tree or player
 
     def on_update(self, delta_time):

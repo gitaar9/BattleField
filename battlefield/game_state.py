@@ -31,6 +31,60 @@ class GameState:
                 cell_size=CELL_SIZE,
                 move_delay=MOVEMENT_DELAY
             ),
+            AICharacter(
+                position_x=22,
+                position_y=1,
+                cell_size=CELL_SIZE,
+                move_delay=MOVEMENT_DELAY
+            ),
+            AICharacter(
+                position_x=22,
+                position_y=4,
+                cell_size=CELL_SIZE,
+                move_delay=MOVEMENT_DELAY
+            ),
+            AICharacter(
+                position_x=22,
+                position_y=7,
+                cell_size=CELL_SIZE,
+                move_delay=MOVEMENT_DELAY
+            ),
+            AICharacter(
+                position_x=18,
+                position_y=2,
+                cell_size=CELL_SIZE,
+                move_delay=MOVEMENT_DELAY
+            ),
+            AICharacter(
+                position_x=18,
+                position_y=5,
+                cell_size=CELL_SIZE,
+                move_delay=MOVEMENT_DELAY
+            ),
+            AICharacter(
+                position_x=18,
+                position_y=8,
+                cell_size=CELL_SIZE,
+                move_delay=MOVEMENT_DELAY
+            ),
+            AICharacter(
+                position_x=18,
+                position_y=1,
+                cell_size=CELL_SIZE,
+                move_delay=MOVEMENT_DELAY
+            ),
+            AICharacter(
+                position_x=18,
+                position_y=4,
+                cell_size=CELL_SIZE,
+                move_delay=MOVEMENT_DELAY
+            ),
+            AICharacter(
+                position_x=18,
+                position_y=7,
+                cell_size=CELL_SIZE,
+                move_delay=MOVEMENT_DELAY
+            ),
         ]
 
         # Init some random trees
@@ -62,9 +116,9 @@ class GameState:
                 self.trees.append(Tree1(loop_x, y))
 
         # Add random trees
-        for _ in range(7):
+        for _ in range(8):
             self.trees.append(Tree1(*self.random_empty_coordinates()))
-        for _ in range(5):
+        for _ in range(6):
             self.trees.append(Tree2(*self.random_empty_coordinates()))
 
         self.trees = sorted(self.trees, key=lambda t: t.grid_y, reverse=True)

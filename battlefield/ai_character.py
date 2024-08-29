@@ -36,10 +36,25 @@ class AICharacter(WalkingFightingCharacter):
 
         return closest_open_tile_to(walkable_tiles, game_state.player_character.grid_x, game_state.player_character.grid_y)
 
+    def is_facing_enemy(self, game_state):
+        if self.grid_y == game_state.player_character.grid_y:
+            if self.facing_left:
+                return self.grid_x - 1 == game_state.player_character.grid_x
+            else:
+                return self.grid_x + 1 == game_state.player_character.grid_x
+        else:
+            return False
+
     def handle_ai_planning(self, game_state, keys_pressed, walkable_tiles):
-        if not self.move_delay_active and random.random() < 0.05:  # Sometimes just do nothing
+        # Sometimes just do nothing
+        if not self.move_delay_active and random.random() < 0.05:
             self.set_last_move_time()
 
+        # Attack if an enemy is right in front of you
+        if not self.move_delay_active and random.random() < 0.06 and self.is_facing_enemy(game_state):
+            self.fight()
+
+        # Move towards and enemy
         if not self.move_delay_active:
             goal_location = self.find_goal_location(game_state)
             if goal_location is not None:
@@ -50,5 +65,3 @@ class AICharacter(WalkingFightingCharacter):
                 # This is such that the character faces to player_character
                 self.move(max(-1, min(1, game_state.player_character.grid_x - self.grid_x)), 0, walkable_tiles)
 
-        if not self.move_delay_active and random.random() < 0.06:
-            self.fight()
