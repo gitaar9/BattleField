@@ -3,6 +3,7 @@ import random
 import numpy as np
 
 from ai_character import AICharacter
+from ai_archer import AIArcher
 from game_constants import GRID_ROWS, CELL_SIZE, MOVEMENT_DELAY, \
     GRID_COLUMNS
 from player_character import PlayerCharacter
@@ -13,37 +14,37 @@ class GameState:
     def __init__(self):
         self.player_character = PlayerCharacter(5, GRID_ROWS // 2, CELL_SIZE, MOVEMENT_DELAY)
         self.ai_characters = [
-            AICharacter(
+            AIArcher(
                 position_x=20,
                 position_y=2,
                 cell_size=CELL_SIZE,
                 move_delay=MOVEMENT_DELAY
             ),
-            AICharacter(
+            AIArcher(
                 position_x=20,
                 position_y=5,
                 cell_size=CELL_SIZE,
                 move_delay=MOVEMENT_DELAY
             ),
-            AICharacter(
+            AIArcher(
                 position_x=20,
                 position_y=8,
                 cell_size=CELL_SIZE,
                 move_delay=MOVEMENT_DELAY
             ),
-            AICharacter(
+            AIArcher(
                 position_x=22,
                 position_y=1,
                 cell_size=CELL_SIZE,
                 move_delay=MOVEMENT_DELAY
             ),
-            AICharacter(
+            AIArcher(
                 position_x=22,
                 position_y=4,
                 cell_size=CELL_SIZE,
                 move_delay=MOVEMENT_DELAY
             ),
-            AICharacter(
+            AIArcher(
                 position_x=22,
                 position_y=7,
                 cell_size=CELL_SIZE,

@@ -55,7 +55,7 @@ class AICharacter(WalkingFightingCharacter):
             self.fight()
 
         # Move towards and enemy
-        if not self.move_delay_active:
+        if not self.move_delay_active and not self.is_facing_enemy(game_state):
             goal_location = self.find_goal_location(game_state)
             if goal_location is not None:
                 dx, dy = next_step_direction(tuple(reversed(goal_location)), walkable_tiles, (self.grid_y, self.grid_x))
