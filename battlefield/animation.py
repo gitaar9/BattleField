@@ -46,3 +46,6 @@ class Animation:
         if animation_phase >= self.animation_parts:
             raise ValueError('Animation phase out of range')
         self.current_frame = (self.frame_count // self.animation_parts) * (animation_phase + 1) - 1
+
+    def is_in_hit_frame(self):
+        return (self.current_frame % (self.frame_count // self.animation_parts)) == 5

@@ -48,3 +48,5 @@ def closest_open_tile_to(walkable_tiles, goal_x, goal_y):
                 queue.append((nx, ny))
 
     return None  # In case all fails (highly unlikely unless fully surrounded by unwalkable tiles)
+
+

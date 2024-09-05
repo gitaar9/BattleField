@@ -27,7 +27,7 @@ class BattlefieldWindow(arcade.Window):
         arcade.draw_lrwh_rectangle_textured(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, self.background_texture)
 
         # Draw the grid with perspective
-        draw_grid = False
+        draw_grid = True
         empty_tiles = self.game_state.walkable_tiles
         if draw_grid:
             for y in range(GRID_ROWS):
@@ -47,10 +47,12 @@ class BattlefieldWindow(arcade.Window):
 
     def on_update(self, delta_time):
         """ Update game logic based on key states. """
-        self.game_state.player_character.update(delta_time, self.game_state, self.keys_pressed, self.game_state.walkable_tiles)
+        self.game_state.update_game_grid()
+
+        self.game_state.player_character.update(delta_time, self.game_state, self.keys_pressed)
 
         for ai_character in self.game_state.ai_characters:
-            ai_character.update(delta_time, self.game_state, self.keys_pressed, self.game_state.walkable_tiles)
+            ai_character.update(delta_time, self.game_state, self.keys_pressed)
 
     def on_key_press(self, key, modifiers):
         """ Handle key presses for player movement. """

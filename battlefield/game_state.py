@@ -12,79 +12,178 @@ from trees import Tree1, Tree2
 
 class GameState:
     def __init__(self):
-        self.player_character = PlayerCharacter(5, GRID_ROWS // 2, CELL_SIZE, MOVEMENT_DELAY)
+        self.player_character = PlayerCharacter(5, GRID_ROWS // 2 - 1, CELL_SIZE, MOVEMENT_DELAY, team=0)
+        # self.ai_characters = [
+        #     AIArcher(
+        #         position_x=20,
+        #         position_y=2,
+        #         cell_size=CELL_SIZE,
+        #         move_delay=MOVEMENT_DELAY,
+        #         team=0
+        #     ),
+        #     AIArcher(
+        #         position_x=20,
+        #         position_y=5,
+        #         cell_size=CELL_SIZE,
+        #         move_delay=MOVEMENT_DELAY,
+        #         team=1
+        #     ),
+        #     AIArcher(
+        #         position_x=20,
+        #         position_y=8,
+        #         cell_size=CELL_SIZE,
+        #         move_delay=MOVEMENT_DELAY,
+        #         team=1
+        #     ),
+        #     AIArcher(
+        #         position_x=22,
+        #         position_y=1,
+        #         cell_size=CELL_SIZE,
+        #         move_delay=MOVEMENT_DELAY,
+        #         team=1
+        #     ),
+        #     AIArcher(
+        #         position_x=22,
+        #         position_y=4,
+        #         cell_size=CELL_SIZE,
+        #         move_delay=MOVEMENT_DELAY,
+        #         team=1
+        #     ),
+        #     AIArcher(
+        #         position_x=22,
+        #         position_y=7,
+        #         cell_size=CELL_SIZE,
+        #         move_delay=MOVEMENT_DELAY,
+        #         team=1
+        #     ),
+        #     AICharacter(
+        #         position_x=18,
+        #         position_y=2,
+        #         cell_size=CELL_SIZE,
+        #         move_delay=MOVEMENT_DELAY,
+        #         team=1
+        #     ),
+        #     AICharacter(
+        #         position_x=18,
+        #         position_y=5,
+        #         cell_size=CELL_SIZE,
+        #         move_delay=MOVEMENT_DELAY,
+        #         team=1
+        #     ),
+        #     AICharacter(
+        #         position_x=18,
+        #         position_y=8,
+        #         cell_size=CELL_SIZE,
+        #         move_delay=MOVEMENT_DELAY,
+        #         team=1
+        #     ),
+        #     AICharacter(
+        #         position_x=18,
+        #         position_y=1,
+        #         cell_size=CELL_SIZE,
+        #         move_delay=MOVEMENT_DELAY,
+        #         team=1
+        #     ),
+        #     AICharacter(
+        #         position_x=18,
+        #         position_y=4,
+        #         cell_size=CELL_SIZE,
+        #         move_delay=MOVEMENT_DELAY,
+        #         team=1
+        #     ),
+        #     AICharacter(
+        #         position_x=18,
+        #         position_y=7,
+        #         cell_size=CELL_SIZE,
+        #         move_delay=MOVEMENT_DELAY,
+        #         team=1
+        #     ),
+        # ]
+
         self.ai_characters = [
-            AIArcher(
-                position_x=20,
-                position_y=2,
-                cell_size=CELL_SIZE,
-                move_delay=MOVEMENT_DELAY
-            ),
-            AIArcher(
-                position_x=20,
-                position_y=5,
-                cell_size=CELL_SIZE,
-                move_delay=MOVEMENT_DELAY
-            ),
-            AIArcher(
-                position_x=20,
-                position_y=8,
-                cell_size=CELL_SIZE,
-                move_delay=MOVEMENT_DELAY
-            ),
-            AIArcher(
-                position_x=22,
-                position_y=1,
-                cell_size=CELL_SIZE,
-                move_delay=MOVEMENT_DELAY
-            ),
-            AIArcher(
-                position_x=22,
-                position_y=4,
-                cell_size=CELL_SIZE,
-                move_delay=MOVEMENT_DELAY
-            ),
-            AIArcher(
-                position_x=22,
-                position_y=7,
-                cell_size=CELL_SIZE,
-                move_delay=MOVEMENT_DELAY
-            ),
             AICharacter(
                 position_x=18,
                 position_y=2,
                 cell_size=CELL_SIZE,
-                move_delay=MOVEMENT_DELAY
+                move_delay=MOVEMENT_DELAY,
+                team=1
             ),
             AICharacter(
                 position_x=18,
                 position_y=5,
                 cell_size=CELL_SIZE,
-                move_delay=MOVEMENT_DELAY
+                move_delay=MOVEMENT_DELAY,
+                team=1
             ),
             AICharacter(
                 position_x=18,
                 position_y=8,
                 cell_size=CELL_SIZE,
-                move_delay=MOVEMENT_DELAY
+                move_delay=MOVEMENT_DELAY,
+                team=1
             ),
             AICharacter(
-                position_x=18,
+                position_x=20,
+                position_y=2,
+                cell_size=CELL_SIZE,
+                move_delay=MOVEMENT_DELAY,
+                team=1
+            ),
+            AICharacter(
+                position_x=20,
+                position_y=5,
+                cell_size=CELL_SIZE,
+                move_delay=MOVEMENT_DELAY,
+                team=1
+            ),
+            AICharacter(
+                position_x=20,
+                position_y=8,
+                cell_size=CELL_SIZE,
+                move_delay=MOVEMENT_DELAY,
+                team=1
+            ),
+            AICharacter(
+                position_x=5,
                 position_y=1,
                 cell_size=CELL_SIZE,
-                move_delay=MOVEMENT_DELAY
+                move_delay=MOVEMENT_DELAY,
+                team=0
             ),
             AICharacter(
-                position_x=18,
+                position_x=5,
                 position_y=4,
                 cell_size=CELL_SIZE,
-                move_delay=MOVEMENT_DELAY
+                move_delay=MOVEMENT_DELAY,
+                team=0
             ),
             AICharacter(
+                position_x=5,
+                position_y=7,
+                cell_size=CELL_SIZE,
+                move_delay=MOVEMENT_DELAY,
+                team=0
+            ),
+            AICharacter(
+                position_x=5,
+                position_y=6,
+                cell_size=CELL_SIZE,
+                move_delay=MOVEMENT_DELAY,
+                team=0
+            ),
+            AICharacter(
+                position_x=5,
+                position_y=8,
+                cell_size=CELL_SIZE,
+                move_delay=MOVEMENT_DELAY,
+                team=0
+            ),
+            AIArcher(
                 position_x=18,
                 position_y=7,
                 cell_size=CELL_SIZE,
-                move_delay=MOVEMENT_DELAY
+                move_delay=MOVEMENT_DELAY,
+                team=1
             ),
         ]
 
@@ -92,16 +191,27 @@ class GameState:
         self.trees = []
         self.stuff = []
         self.setup_field()
+        self.grid = None
+        self.update_game_grid()
 
     @property
     def drawables(self):
-        return [self.player_character] + self.trees + self.stuff + self.ai_characters
+        return self.trees + self.stuff + self.characters
+
+    @property
+    def characters(self):
+        return [self.player_character] + self.ai_characters
 
     @property
     def walkable_tiles(self) -> np.ndarray:
         grid = np.ones((GRID_ROWS, GRID_COLUMNS), bool)
         for d in self.drawables:
-            grid[d.grid_y, d.grid_x] = False
+            from hitpoints_mixin import HitPointsMixin
+            if isinstance(d, HitPointsMixin):
+                if not d.is_dead():
+                    grid[d.grid_y, d.grid_x] = False
+            else:
+                grid[d.grid_y, d.grid_x] = False
         return grid
 
     def setup_field(self):
@@ -131,3 +241,23 @@ class GameState:
             x, y = random.randint(0, GRID_COLUMNS - 1), random.randint(0, GRID_ROWS - 1)
         return x, y
 
+    def update_game_grid(self):
+        """ Create a grid representing the current state of all elements on the field. Index with [y][x]"""
+        # Initialize an empty grid
+        self.grid = [[None for _ in range(GRID_COLUMNS)] for _ in range(GRID_ROWS)]
+
+        # Place trees
+        for tree in self.trees:
+            self.grid[tree.grid_y][tree.grid_x] = tree
+
+        # Place AI characters
+        for character in self.characters:
+            if not character.is_dead():
+                self.grid[character.grid_y][character.grid_x] = character
+
+        # Place the player character
+        # self.grid[self.player_character.grid_y][self.player_character.grid_x] = self.player_character
+
+    @property
+    def game_grid(self):
+        return self.grid
