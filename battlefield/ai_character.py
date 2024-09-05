@@ -12,12 +12,12 @@ class AICharacter(WalkingFightingCharacter):
 
         self.target = None
 
-        self.animations = {
+        self.animations.update({
             'facing_left': Animation("resources/farmer_character/walk_left.png", 48, 48, 8, 8, frame_duration=STANDARD_FRAME_TIME, scale=1.0, loop=False, margin_x=-9),
             'facing_right': Animation("resources/farmer_character/walk_right.png", 48, 48, 8, 8, frame_duration=STANDARD_FRAME_TIME, scale=1.0, loop=False, margin_x=9),
             'fighting_left': Animation("resources/ai_character/attacks_left.png", 48, 48, 8, 16, frame_duration=STANDARD_FRAME_TIME / 2, scale=1.0, loop=False, margin_x=-9),
             'fighting_right': Animation("resources/ai_character/attack_right.png", 48, 48, 8, 16, frame_duration=STANDARD_FRAME_TIME / 2, scale=1.0, loop=False, margin_x=9),
-        }
+        })
 
     def find_goal_location(self, game_state):
         walkable_tiles = game_state.walkable_tiles

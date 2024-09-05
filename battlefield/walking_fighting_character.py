@@ -38,6 +38,8 @@ class WalkingFightingCharacter(HitPointsMixin):
             'facing_right': Animation("resources/main_character/walk_right.png", 48, 48, 8, 8, frame_duration=STANDARD_FRAME_TIME, scale=1.0, loop=False, margin_x=9),
             'fighting_left': Animation("resources/main_character/attacks_left.png", 48, 48, 8, 16, frame_duration=self.weapon.frame_time, scale=1.0, loop=False, margin_x=-9),
             'fighting_right': Animation("resources/main_character/attack_right.png", 48, 48, 8, 16, frame_duration=self.weapon.frame_time, scale=1.0, loop=False, margin_x=9),
+            'death_left': Animation("resources/farmer_character/death_left.png", 48, 48, 8, 16, frame_duration=STANDARD_FRAME_TIME, scale=1.0, loop=False, margin_x=-9),
+            'death_right': Animation("resources/farmer_character/death_right.png", 48, 48, 8, 16, frame_duration=STANDARD_FRAME_TIME, scale=1.0, loop=False, margin_x=9),
         }
 
     def calculate_screen_position(self, grid_x, grid_y):
@@ -53,9 +55,6 @@ class WalkingFightingCharacter(HitPointsMixin):
 
     def draw(self):
         """ Draw the player character and their HP bar on the grid. """
-        if self.is_dead():
-            return
-
         perspective_factor = calculate_perspective_factor(self.grid_y)
         cell_width = self.cell_size * perspective_factor
         animation = self.get_current_animation()
@@ -66,16 +65,17 @@ class WalkingFightingCharacter(HitPointsMixin):
                     animation.frame_height * animation.scale) / 2 + self.bottom_padding * perspective_factor
 
         # Draw team indication
-        ellipse_width = cell_width * 0.7
-        ellipse_height = cell_width * 0.3
-        team_color = arcade.color.RED if self.team == 1 else arcade.color.BLUE  # Change colors based on team
-        arcade.draw_ellipse_filled(
-            center_x + (-cell_width*0.1 if self.facing_left else cell_width*0.1),
-            center_y - animation.frame_height * animation.scale / 2,
-            ellipse_width,
-            ellipse_height,
-            (*team_color, 64)
-        )  # Half transparency
+        if not self.is_dead():
+            ellipse_width = cell_width * 0.7
+            ellipse_height = cell_width * 0.3
+            team_color = arcade.color.RED if self.team == 1 else arcade.color.BLUE  # Change colors based on team
+            arcade.draw_ellipse_filled(
+                center_x + (-cell_width*0.1 if self.facing_left else cell_width*0.1),
+                center_y - animation.frame_height * animation.scale / 2,
+                ellipse_width,
+                ellipse_height,
+                (*team_color, 64)
+            )  # Half transparency
 
         # Drawing the character
         animation.draw(center_x=center_x, center_y=center_y, perspective_factor=perspective_factor)
@@ -89,6 +89,8 @@ class WalkingFightingCharacter(HitPointsMixin):
             )
 
     def get_current_animation(self):
+        if self.is_dead():
+            return self.animations['death_left'] if self.facing_left else self.animations['death_right']
         if self.fighting:
             return self.animations['fighting_left'] if self.facing_left else self.animations['fighting_right']
         else:
@@ -98,7 +100,7 @@ class WalkingFightingCharacter(HitPointsMixin):
         # Update the animation based on movement
         self.get_current_animation().update()
 
-        if (time.time() - self.last_move_time) >= self.move_delay:
+        if not self.is_dead() and (time.time() - self.last_move_time) >= self.move_delay:
             if self.fighting:
                 self.animations['facing_left'].set_animation_phase(self.animations['fighting_left'].get_animation_phase())
                 self.animations['facing_left'].playing = False
@@ -107,6 +109,10 @@ class WalkingFightingCharacter(HitPointsMixin):
             else:
                 self.animations['fighting_left'].set_animation_phase(self.animations['facing_left'].get_animation_phase())
                 self.animations['fighting_right'].set_animation_phase(self.animations['facing_right'].get_animation_phase())
+            self.animations['death_left'].set_animation_phase(self.animations['fighting_left'].get_animation_phase())
+            self.animations['death_left'].reset()
+            self.animations['death_right'].set_animation_phase(self.animations['fighting_right'].get_animation_phase())
+            self.animations['death_right'].reset()
 
     def handle_player_input(self, game_state, keys_pressed):
         pass
@@ -117,17 +123,16 @@ class WalkingFightingCharacter(HitPointsMixin):
     def get_potential_hit_target(self, game_state):
         if self.facing_left:
             if self.grid_x - 1 > 0:
-                print(f'Checking {self.grid_y} {self.grid_x - 1}')
                 return game_state.game_grid[self.grid_y][self.grid_x - 1]
         else:
             if self.grid_x + 1 < GRID_COLUMNS:
-                print(f'Checking {self.grid_y} {self.grid_x + 1}')
                 return game_state.game_grid[self.grid_y][self.grid_x + 1]
         return None
 
     def update(self, delta_time, game_state, keys_pressed):
         """ Update the position of the character smoothly based on keys pressed. """
         if self.is_dead():
+            self.update_animation()
             return
         super().update()
 
@@ -135,7 +140,6 @@ class WalkingFightingCharacter(HitPointsMixin):
         self.weapon.update()
         if self.fighting and self.get_current_animation().is_in_hit_frame():
             potential_target = self.get_potential_hit_target(game_state)
-            print(f'found {potential_target}')
             if potential_target is not None and isinstance(potential_target, WalkingFightingCharacter):
                 if self.weapon.hit_cooldown == 0 and potential_target.team != self.team:
                     potential_target.hit(self.weapon.damage)

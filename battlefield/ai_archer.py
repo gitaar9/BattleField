@@ -13,12 +13,12 @@ class AIArcher(AICharacter):
 
         self.weapon = Weapon(10, STANDARD_FRAME_TIME, STANDARD_FRAME_TIME * 8)
 
-        self.animations = {
+        self.animations.update({
             'facing_left': Animation("resources/ai_archer/archer_walk_left.png", 48, 48, 8, 8, frame_duration=STANDARD_FRAME_TIME, scale=1.0, loop=False, margin_x=-9),
             'facing_right': Animation("resources/ai_archer/archer_walk_right.png", 48, 48, 8, 8, frame_duration=STANDARD_FRAME_TIME, scale=1.0, loop=False, margin_x=9),
             'fighting_left': Animation("resources/ai_archer/archer_attack_left.png", 48, 48, 8, 16, frame_duration=self.weapon.frame_time, scale=1.0, loop=False, margin_x=-9),
             'fighting_right': Animation("resources/ai_archer/archer_attack_right.png", 48, 48, 8, 16, frame_duration=self.weapon.frame_time, scale=1.0, loop=False, margin_x=9),
-        }
+        })
 
     def find_goal_location(self, game_state):
         walkable_tiles = game_state.walkable_tiles
