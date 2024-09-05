@@ -1,8 +1,7 @@
 from a_star import closest_open_tile_to
 from animation import Animation
 from ai_character import AICharacter
-from game_constants import STANDARD_FRAME_TIME, GRID_COLUMNS, GRID_ROWS
-from hitpoints_mixin import HitPointsMixin
+from game_constants import STANDARD_FRAME_TIME, GRID_COLUMNS, GRID_ROWS, MOVEMENT_DELAY
 from weapon import Weapon
 
 
