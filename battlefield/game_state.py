@@ -2,7 +2,7 @@ import random
 
 import numpy as np
 
-from ai_character import AICharacter
+from ai_character import AICharacter, AIKnight
 from ai_archer import AIArcher
 from game_constants import GRID_ROWS, CELL_SIZE, MOVEMENT_DELAY, \
     GRID_COLUMNS
@@ -181,6 +181,13 @@ class GameState:
             AIArcher(
                 position_x=18,
                 position_y=7,
+                cell_size=CELL_SIZE,
+                move_delay=MOVEMENT_DELAY,
+                team=1
+            ),
+            AIKnight(
+                position_x=21,
+                position_y=8,
                 cell_size=CELL_SIZE,
                 move_delay=MOVEMENT_DELAY,
                 team=1

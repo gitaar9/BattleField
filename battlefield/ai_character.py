@@ -4,6 +4,7 @@ from a_star import next_step_direction, closest_open_tile_to
 from animation import Animation
 from game_constants import STANDARD_FRAME_TIME, GRID_COLUMNS, GRID_ROWS, MOVEMENT_DELAY
 from walking_fighting_character import WalkingFightingCharacter
+from weapon import Weapon
 
 
 class AICharacter(WalkingFightingCharacter):
@@ -15,8 +16,8 @@ class AICharacter(WalkingFightingCharacter):
         self.animations.update({
             'facing_left': Animation("resources/farmer_character/walk_left.png", 48, 48, 8, 8, frame_duration=STANDARD_FRAME_TIME, scale=1.0, loop=False, margin_x=-9),
             'facing_right': Animation("resources/farmer_character/walk_right.png", 48, 48, 8, 8, frame_duration=STANDARD_FRAME_TIME, scale=1.0, loop=False, margin_x=9),
-            'fighting_left': Animation("resources/ai_character/attacks_left.png", 48, 48, 8, 16, frame_duration=STANDARD_FRAME_TIME / 2, scale=1.0, loop=False, margin_x=-9),
-            'fighting_right': Animation("resources/ai_character/attack_right.png", 48, 48, 8, 16, frame_duration=STANDARD_FRAME_TIME / 2, scale=1.0, loop=False, margin_x=9),
+            'fighting_left': Animation("resources/farmer_character/attacks_left.png", 48, 48, 8, 16, frame_duration=self.weapon.frame_time, scale=1.0, loop=False, margin_x=-9),
+            'fighting_right': Animation("resources/farmer_character/attack_right.png", 48, 48, 8, 16, frame_duration=self.weapon.frame_time, scale=1.0, loop=False, margin_x=9),
         })
 
     def find_goal_location(self, game_state):
@@ -118,3 +119,18 @@ class AICharacter(WalkingFightingCharacter):
                     self.facing_left = True
                 if self.target.grid_x - self.grid_x > 0:
                     self.facing_left = False
+
+
+class AIKnight(AICharacter):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.target = None
+        self.weapon = Weapon(15, STANDARD_FRAME_TIME / 2, MOVEMENT_DELAY)
+
+        self.animations.update({
+            'facing_left': Animation("resources/ai_character/walk_left.png", 48, 48, 8, 8, frame_duration=STANDARD_FRAME_TIME, scale=1.0, loop=False, margin_x=-9),
+            'facing_right': Animation("resources/ai_character/walk_right.png", 48, 48, 8, 8, frame_duration=STANDARD_FRAME_TIME, scale=1.0, loop=False, margin_x=9),
+            'fighting_left': Animation("resources/ai_character/attacks_left.png", 48, 48, 8, 16, frame_duration=self.weapon.frame_time, scale=1.0, loop=False, margin_x=-9),
+            'fighting_right': Animation("resources/ai_character/attack_right.png", 48, 48, 8, 16, frame_duration=self.weapon.frame_time, scale=1.0, loop=False, margin_x=9),
+        })
