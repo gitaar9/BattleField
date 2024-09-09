@@ -139,11 +139,9 @@ class WalkingFightingCharacter(HitPointsMixin):
         # Weapon stuff
         self.weapon.update()
         if self.fighting and self.get_current_animation().is_in_hit_frame():
-            potential_target = self.get_potential_hit_target(game_state)
-            if potential_target is not None and isinstance(potential_target, WalkingFightingCharacter):
-                if self.weapon.hit_cooldown == 0 and potential_target.team != self.team:
-                    potential_target.hit(self.weapon.damage)
-                    self.weapon.reset_hit_cooldown()
+            # potential_target = self.get_potential_hit_target(game_state)
+            # if potential_target is not None and isinstance(potential_target, WalkingFightingCharacter):
+            self.weapon.attack(self, game_state)
         self.update_animation()
 
         if (time.time() - self.last_move_time) >= self.move_delay:
@@ -192,11 +190,15 @@ class WalkingFightingCharacter(HitPointsMixin):
 
         # Figure out if we can move there
         if new_x < 0 or new_x > GRID_COLUMNS - 1:
-            return
+            return False
         if new_y < 0 or new_y > GRID_ROWS - 1:
-            return
+            return False
         if not walkable_tiles[new_y, new_x]:
-            return
+            if delta_x != 0 and delta_y != 0:  # If both deltas are non-zero move in try to move in either direction
+                if self.move(delta_x, 0, walkable_tiles):
+                    return True
+                return self.move(0, delta_y, walkable_tiles)
+            return False
 
         if self.facing_left:
             self.animations['facing_left'].reset()
@@ -214,3 +216,5 @@ class WalkingFightingCharacter(HitPointsMixin):
         self.x_screen_distance = self.target_x - self.screen_x
         self.y_screen_distance = self.target_y - self.screen_y
         self.set_last_move_time(MOVEMENT_DELAY)
+
+        return True

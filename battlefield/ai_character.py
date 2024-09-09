@@ -73,6 +73,7 @@ class AICharacter(WalkingFightingCharacter):
                         visited.add((neighbor_x, neighbor_y))
                         queue.append((neighbor_x, neighbor_y))
         return None
+
     def find_target(self, game_state, keys_pressed):
         self.target = self.bfs_for_target((self.grid_x, self.grid_y), game_state)
 
@@ -82,7 +83,6 @@ class AICharacter(WalkingFightingCharacter):
         if isinstance(neighbouring_tile, WalkingFightingCharacter) and neighbouring_tile.team != self.team and not neighbouring_tile.is_dead():
             self.target = neighbouring_tile
             return
-
 
     def handle_ai_planning(self, game_state, keys_pressed):
         if self.target is None or self.target.is_dead():

@@ -51,6 +51,9 @@ class BattlefieldWindow(arcade.Window):
 
         self.game_state.player_character.update(delta_time, self.game_state, self.keys_pressed)
 
+        for arrow in self.game_state.arrows:
+            arrow.update(delta_time)
+
         for ai_character in self.game_state.ai_characters:
             ai_character.update(delta_time, self.game_state, self.keys_pressed)
 

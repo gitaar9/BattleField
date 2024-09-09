@@ -8,6 +8,7 @@ from game_constants import GRID_ROWS, CELL_SIZE, MOVEMENT_DELAY, \
     GRID_COLUMNS
 from player_character import PlayerCharacter
 from trees import Tree1, Tree2
+from weapon import Arrow
 
 
 class GameState:
@@ -193,9 +194,27 @@ class GameState:
                 team=1
             ),
         ]
+        self.ai_characters = [
+            AIArcher(
+                position_x=18,
+                position_y=7,
+                cell_size=CELL_SIZE,
+                move_delay=MOVEMENT_DELAY,
+                team=1
+            ),
+        ]
 
         # Init some random trees
         self.trees = []
+        self.arrows = [
+            Arrow(
+                position_x=22,
+                position_y=6,
+                velocity_x=-4,
+                velocity_y=0,
+                cell_size=CELL_SIZE,
+            )
+        ]
         self.stuff = []
         self.setup_field()
         self.grid = None
@@ -203,7 +222,7 @@ class GameState:
 
     @property
     def drawables(self):
-        return self.trees + self.stuff + self.characters
+        return self.trees + self.stuff + self.characters + self.arrows
 
     @property
     def characters(self):
@@ -234,9 +253,10 @@ class GameState:
                 self.trees.append(Tree1(loop_x, y))
 
         # Add random trees
-        for _ in range(8):
+        num_random_trees = 14
+        for _ in range(num_random_trees // 3 * 2):
             self.trees.append(Tree1(*self.random_empty_coordinates()))
-        for _ in range(6):
+        for _ in range(num_random_trees // 3):
             self.trees.append(Tree2(*self.random_empty_coordinates()))
 
         self.trees = sorted(self.trees, key=lambda t: t.grid_y, reverse=True)

@@ -2,7 +2,7 @@ from a_star import closest_open_tile_to
 from animation import Animation
 from ai_character import AICharacter
 from game_constants import STANDARD_FRAME_TIME, GRID_COLUMNS, GRID_ROWS, MOVEMENT_DELAY
-from weapon import Weapon
+from weapon import Bow
 
 
 class AIArcher(AICharacter):
@@ -10,7 +10,7 @@ class AIArcher(AICharacter):
         AICharacter.__init__(self, *args, **kwargs)
         self.attack_range = 8
 
-        self.weapon = Weapon(10, STANDARD_FRAME_TIME, STANDARD_FRAME_TIME * 8)
+        self.weapon = Bow(10, STANDARD_FRAME_TIME, STANDARD_FRAME_TIME * 8)
 
         self.animations.update({
             'facing_left': Animation("resources/ai_archer/archer_walk_left.png", 48, 48, 8, 8, frame_duration=STANDARD_FRAME_TIME, scale=1.0, loop=False, margin_x=-9),
