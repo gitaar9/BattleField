@@ -17,6 +17,8 @@ class PlayerCharacter(WalkingFightingCharacter):
             'facing_right': Animation("resources/main_character/walk_right.png", 48, 48, 8, 8, frame_duration=STANDARD_FRAME_TIME, scale=1.0, loop=False, margin_x=9),
             'fighting_left': Animation("resources/main_character/attacks_left.png", 48, 48, 8, 16, frame_duration=self.weapon.frame_time, scale=1.0, loop=False, margin_x=-9),
             'fighting_right': Animation("resources/main_character/attack_right.png", 48, 48, 8, 16, frame_duration=self.weapon.frame_time, scale=1.0, loop=False, margin_x=9),
+            'death_left': Animation("resources/main_character/death_left.png", 48, 48, 8, 16, frame_duration=STANDARD_FRAME_TIME, scale=1.0, loop=False, margin_x=-9),
+            'death_right': Animation("resources/main_character/death_right.png", 48, 48, 8, 16, frame_duration=STANDARD_FRAME_TIME, scale=1.0, loop=False, margin_x=9),
         })
 
     def handle_player_input(self, game_state, keys_pressed):

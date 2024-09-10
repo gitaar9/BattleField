@@ -10,6 +10,7 @@ class BattlefieldWindow(arcade.Window):
     def __init__(self):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
         self.set_update_rate(1/60)
+        arcade.enable_timings()
         # Background texture
         arcade.set_background_color(arcade.color.ASH_GREY)
         self.background_texture = arcade.load_texture("resources/backgrounds/background_image.webp")  # Load the background image
@@ -44,6 +45,10 @@ class BattlefieldWindow(arcade.Window):
 
         for drawable in sorted(self.game_state.drawables, key=lambda t: (t.screen_y, -t.screen_x), reverse=True):
             drawable.draw()  # Draw the tree or player
+
+        # Draw FPS on the screen
+        fps = f"FPS: {arcade.get_fps():.2f}"
+        arcade.draw_text(fps, 10, SCREEN_HEIGHT - 20, arcade.color.WHITE, 14)
 
     def on_update(self, delta_time):
         """ Update game logic based on key states. """

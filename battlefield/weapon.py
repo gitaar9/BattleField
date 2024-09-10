@@ -35,8 +35,9 @@ class Weapon:
         if self.hit_cooldown == 0:
             self.reset_hit_cooldown()
             targets = self.get_targets_in_range(user, game_state)
+            from walking_fighting_character import WalkingFightingCharacter
             for target in targets:
-                if target is not None and target.team != user.team:
+                if isinstance(target, WalkingFightingCharacter) and target.team != user.team:
                     target.hit(self.damage)
 
 
