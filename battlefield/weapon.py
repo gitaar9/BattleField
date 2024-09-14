@@ -5,10 +5,19 @@ import arcade
 from draw_utils import calculate_perspective_factor
 from game_constants import GRID_ROWS, GRID_COLUMNS, MOVEMENT_DELAY, SCREEN_WIDTH, BOTTOM_GRID_PAD, HORIZONTAL_PADDING, \
     CELL_SIZE
+from piskel import Piskel
 
 
 class Weapon:
     def __init__(self, damage, frame_time, move_delay_time):
+        from player_character import ItemPiskels
+        self.piskels = ItemPiskels(
+            piskel_layers=['Sword'],
+            walk_piskel=Piskel('./piksel_files/main_character/walk.piskel'),
+            death_piskel=Piskel('./piksel_files/main_character/death.piskel'),
+            large_sword_attack_piskel=Piskel('./piksel_files/main_character/large_sword_attack.piskel')
+        )
+
         self.damage = damage
         self.frame_time = frame_time
         self.move_delay_time = move_delay_time

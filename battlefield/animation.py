@@ -1,10 +1,18 @@
 import time
+from pathlib import Path
+from typing import List, Union
+
 import arcade
+from arcade import Texture
 
 
 class Animation:
-    def __init__(self, file_path, frame_width, frame_height, columns, frame_count, frame_duration=0.05, scale=1.0, loop=True, margin_x=0):
-        self.texture_list = arcade.load_spritesheet(file_path, frame_width, frame_height, columns, frame_count)
+    def __init__(self, file_path: Union[Path, List[Texture]], frame_width, frame_height, columns, frame_count, frame_duration=0.05, scale=1.0, loop=True, margin_x=0):
+        if isinstance(file_path, list):
+            self.texture_list = file_path
+        else:
+            self.texture_list = arcade.load_spritesheet(file_path, frame_width, frame_height, columns, frame_count)
+
         self.frame_width = frame_width
         self.frame_height = frame_height
         self.margin_x = margin_x
