@@ -2,9 +2,11 @@ import time
 
 import arcade
 
+from animation import Animation
 from draw_utils import calculate_perspective_factor
 from game_constants import GRID_ROWS, GRID_COLUMNS, MOVEMENT_DELAY, SCREEN_WIDTH, BOTTOM_GRID_PAD, HORIZONTAL_PADDING, \
-    CELL_SIZE
+    CELL_SIZE, STANDARD_FRAME_TIME
+from hitpoints_mixin import HitPointsMixin
 from piskel import Piskel
 
 
@@ -55,18 +57,32 @@ class Bow(Weapon):
         if self.hit_cooldown == 0:
             self.reset_hit_cooldown()
             arrow_velocity = 4 * (-1 if user.facing_left else 1)
-            game_state.arrows.append(Arrow(position_x=user.grid_x, position_y=user.grid_y, velocity_x=arrow_velocity, velocity_y=0, cell_size=CELL_SIZE))
+            game_state.arrows.append(
+                Arrow(
+                    position_x=user.grid_x,
+                    position_y=user.grid_y,
+                    velocity_x=arrow_velocity,
+                    velocity_y=0,
+                    cell_size=CELL_SIZE,
+                    damage=self.damage,
+                    team=user.team,
+                )
+            )
 
 
 class Arrow:
-    def __init__(self, position_x, position_y, velocity_x, velocity_y, cell_size):
+    def __init__(self, position_x, position_y, velocity_x, velocity_y, cell_size, damage, team):
         # Initialize grid and screen positions
         self.grid_x = position_x
         self.grid_y = position_y
         self.velocity_x = velocity_x
         self.velocity_y = velocity_y
         self.cell_size = cell_size
+        self.damage = damage
+        self.team = team
         self.screen_x, self.screen_y = self.calculate_screen_position(self.grid_x, self.grid_y)
+
+        self.animation = Animation("resources/missiles/arrow_1.png", 27, 6, 1, 1, frame_duration=STANDARD_FRAME_TIME, scale=1.0, loop=False)
 
         self.last_move_time = time.time()
 
@@ -76,9 +92,13 @@ class Arrow:
         cell_width = self.cell_size * perspective_factor
         cell_height = self.cell_size * perspective_factor
 
-        screen_x = grid_x * cell_width + (SCREEN_WIDTH / 2) - (GRID_COLUMNS * cell_width / 2)
+        screen_x = grid_x * cell_width + (SCREEN_WIDTH / 2) - (GRID_COLUMNS * cell_width / 2) + .5 * cell_width
         screen_y = grid_y * cell_height + BOTTOM_GRID_PAD + HORIZONTAL_PADDING * grid_y
 
+        if self.velocity_x > 0:
+            pass
+        else:
+            pass
         return screen_x, screen_y
 
     def calculate_grid_position(self):
@@ -88,8 +108,11 @@ class Arrow:
         cell_height = self.cell_size * perspective_factor
 
         # Reverse the screen_x and screen_y calculations
-        grid_x = ((self.screen_x + cell_width / 2) - (SCREEN_WIDTH / 2) + (GRID_COLUMNS * cell_width / 2)) / cell_width
-        grid_y = (self.screen_y - BOTTOM_GRID_PAD - HORIZONTAL_PADDING * self.grid_y) / cell_height
+        if self.velocity_x > 0:
+            grid_x = ((self.screen_x) - (SCREEN_WIDTH / 2) + (GRID_COLUMNS * cell_width / 2)) / cell_width
+        else:
+            grid_x = ((self.screen_x + cell_width / 2) - (SCREEN_WIDTH / 2) + (GRID_COLUMNS * cell_width / 2)) / cell_width
+        grid_y = (self.screen_y - BOTTOM_GRID_PAD) / (cell_height + HORIZONTAL_PADDING)
 
         return max(0, min(int(grid_x), GRID_COLUMNS - 1)), max(0, min(int(grid_y), GRID_ROWS -1))
 
@@ -100,18 +123,25 @@ class Arrow:
         cell_height = self.cell_size * perspective_factor
 
         y = self.screen_y + cell_height * .85
-        arcade.draw_line(self.screen_x, y, self.screen_x + (10 * calculate_perspective_factor(self.grid_y)), y, arcade.color.BROWN, 2)
+        # arcade.draw_line(self.screen_x, y, self.screen_x + (10 * calculate_perspective_factor(self.grid_y)), y, arcade.color.BROWN, 2)
 
-    def update(self, delta_time):
+        self.animation.draw(center_x=self.screen_x, center_y=y, perspective_factor=perspective_factor)
+
+    def update(self, delta_time, game_state, keys_pressed):
         """ Update the arrow's screen position based on velocity and update grid position accordingly. """
         # Move the arrow based on its velocity
         self.screen_x += self.velocity_x
         self.screen_y += self.velocity_y
 
         # Update the grid position based on the new screen position
-        self.grid_x, self.grid_y = self.calculate_grid_position()
+        self.grid_x, _ = self.calculate_grid_position()  # There is a bug in the grid_y calculation
+
+        possible_hit = game_state.game_grid[self.grid_y][self.grid_x]
+        if isinstance(possible_hit, HitPointsMixin) and (not hasattr(possible_hit, 'team') or possible_hit.team != self.team):
+            game_state.game_grid[self.grid_y][self.grid_x].hit(self.damage)
+            return False
 
         # Check if arrow goes outside the grid
-        if self.grid_x < 0 or self.grid_x >= GRID_COLUMNS or self.grid_y < 0 or self.grid_y >= GRID_ROWS:
+        if self.grid_x <= 0 or self.grid_x >= GRID_COLUMNS - 1 or self.grid_y < 0 or self.grid_y >= GRID_ROWS:
             return False  # Arrow is outside the grid
         return True  # Arrow is still within the grid

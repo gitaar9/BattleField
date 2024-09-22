@@ -56,4 +56,4 @@ class Animation:
         self.current_frame = (self.frame_count // self.animation_parts) * (animation_phase + 1) - 1
 
     def is_in_hit_frame(self):
-        return (self.current_frame % (self.frame_count // self.animation_parts)) == 5
+        return (self.current_frame % (self.frame_count // self.animation_parts)) == 4

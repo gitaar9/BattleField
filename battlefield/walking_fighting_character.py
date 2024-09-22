@@ -84,7 +84,7 @@ class WalkingFightingCharacter(HitPointsMixin):
         if not self.is_dead():
             self.draw_hp_bar(
                 center_x=center_x,
-                center_y=center_y + (animation.frame_height * animation.scale / 2),
+                center_y=center_y + (animation.frame_height * animation.scale * 0.4),
                 hp_bar_width=(cell_width * .9) * perspective_factor
             )
 

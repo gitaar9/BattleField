@@ -41,7 +41,7 @@ class AIArcher(AICharacter):
         return closest_open_tile_to(walkable_tiles, self.target.grid_x, self.target.grid_y)
 
     def is_facing_enemy(self, game_state):
-        if self.grid_y == game_state.player_character.grid_y:
+        if self.grid_y == self.target.grid_y:
             if self.facing_left:
                 return self.grid_x - self.attack_range < self.target.grid_x < self.grid_x
             else:

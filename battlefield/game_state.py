@@ -2,7 +2,7 @@ import random
 
 import numpy as np
 
-from character_configurations import random_10_vs_10
+from character_configurations import random_10_vs_10, archer_10_vs_10
 from game_constants import GRID_ROWS, CELL_SIZE, MOVEMENT_DELAY, \
     GRID_COLUMNS
 from player_character import PlayerCharacter
@@ -15,18 +15,11 @@ class GameState:
         self.player_character = PlayerCharacter(5, GRID_ROWS // 2 - 1, CELL_SIZE, MOVEMENT_DELAY, team=0)
 
         self.ai_characters = random_10_vs_10()
+        # self.ai_characters = archer_10_vs_10()
 
         # Init some random trees
         self.trees = []
-        self.arrows = [
-            Arrow(
-                position_x=22,
-                position_y=6,
-                velocity_x=-4,
-                velocity_y=0,
-                cell_size=CELL_SIZE,
-            )
-        ]
+        self.arrows = []
         self.stuff = []
         self.setup_field()
         self.grid = None

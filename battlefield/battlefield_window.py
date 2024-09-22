@@ -56,8 +56,13 @@ class BattlefieldWindow(arcade.Window):
 
         self.game_state.player_character.update(delta_time, self.game_state, self.keys_pressed)
 
-        for arrow in self.game_state.arrows:
-            arrow.update(delta_time)
+        remove_arrows_idxs = []
+        for arrow_idx, arrow in enumerate(self.game_state.arrows):
+            if not arrow.update(delta_time, self.game_state, self.keys_pressed):
+                remove_arrows_idxs.append(arrow_idx)
+        # Remove the arrows from the list by iterating in reverse order
+        for idx in sorted(remove_arrows_idxs, reverse=True):
+            del self.game_state.arrows[idx]
 
         for ai_character in self.game_state.ai_characters:
             ai_character.update(delta_time, self.game_state, self.keys_pressed)

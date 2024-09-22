@@ -22,11 +22,19 @@ class HitPointsMixin:
         return self.hp <= 0
 
     def draw_hp_bar(self, center_x, center_y, hp_bar_width, hp_bar_height=3):
+        # HP Bar border in black
+        arcade.draw_rectangle_filled(
+            center_x=center_x,
+            center_y=center_y,
+            width=hp_bar_width + 2,
+            height=hp_bar_height + 2,
+            color=arcade.color.BLACK
+        )
+
         # HP Bar Background (Max HP) in red
         arcade.draw_rectangle_filled(
             center_x=center_x,
             center_y=center_y,
-            # 5 pixels above the character
             width=hp_bar_width,
             height=hp_bar_height,
             color=arcade.color.RED

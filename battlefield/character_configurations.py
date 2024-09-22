@@ -256,3 +256,42 @@ def random_10_vs_10():
             get_random_ai_character(x, y, 1)
         )
     return ai_characters
+
+
+def archer_10_vs_10():
+    ai_characters = []
+    friendly_positions = [
+        (5, 3), (6, 3),
+        (5, 4), (6, 4),
+        (5, 5), (6, 5),
+        (5, 6), (6, 6),
+        (5, 7), (6, 7),
+    ]
+    enemy_positions = [
+        (18, 3), (19, 3),
+        (18, 4), (19, 4),
+        (18, 5), (19, 5),
+        (18, 6), (19, 6),
+        (18, 7), (19, 7),
+    ]
+    for x, y in friendly_positions:
+        ai_characters.append(
+            AIArcher(
+                position_x=x,
+                position_y=y,
+                cell_size=CELL_SIZE,
+                move_delay=MOVEMENT_DELAY,
+                team=0
+            )
+        )
+    for x, y in enemy_positions:
+        ai_characters.append(
+            AIArcher(
+                position_x=x,
+                position_y=y,
+                cell_size=CELL_SIZE,
+                move_delay=MOVEMENT_DELAY,
+                team=1
+            )
+        )
+    return ai_characters
